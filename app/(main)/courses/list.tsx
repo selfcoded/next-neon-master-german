@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 type Props = {
   courses: (typeof courses.$inferSelect)[];
-  activeCourseId?: typeof userProgress.$inferSelect.activeCourseID;
+  activeCourseId?: typeof userProgress.$inferSelect.activeCourseId;
 };
 
 const List = ({ courses, activeCourseId }: Props) => {
@@ -24,6 +24,7 @@ const List = ({ courses, activeCourseId }: Props) => {
       upsertUserProgress(id).catch(() => toast.error("something went wrong"));
     });
   };
+
   return (
     <div className="grid grid-cols-2 lg:grid-cols-[repeat(auto-fill,minmax(210,ifr))] gap-2">
       {courses.map((course) => (

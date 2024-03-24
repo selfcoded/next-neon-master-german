@@ -18,17 +18,16 @@ const page = async () => {
   return (
     <div className="flex gap-x-[30px] relative px-6">
       <Feed>
-        <Header title={userProgress.activeCourse.title} />
         <LessonWrapper href="/learn" courseId={userProgress.activeCourse.id} />
       </Feed>
-      <StickyWrapper>
+      {/* <StickyWrapper>
         <UserProgress
           activeCourse={userProgress?.activeCourse}
           points={5}
           hearts={5}
           hasActiveSubscription={false}
         />
-      </StickyWrapper>
+      </StickyWrapper> */}
     </div>
   );
 };

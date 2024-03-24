@@ -11,7 +11,7 @@ const CoursesPage = async () => {
   ]);
   return (
     <div className="">
-      <List courses={courses} activeCourseId={userProgress?.activeCourseID} />
+      <List courses={courses} activeCourseId={userProgress?.activeCourseId} />
     </div>
   );
 };

@@ -14,14 +14,18 @@ const Sidebar = ({ className }: Props) => {
         className
       )}
     >
-      <div className="pt-8 pl-4 pb-7 flex items-center gap-x-3 text-slate-600">
+      <div className="pt-8 pl-4 pb-7 flex items-center gap-x-3 text-blue-600">
         <h1 className="text-lg font-extrabold">Master German</h1>
       </div>
       <div className="flex px-2  flex-col gap-y-2 flex-1">
-        <SidebarItem label="learn" href="/learn" iconSrc="/unknown" />
-        <SidebarItem label="vocabulary" href="/vocabulary" iconSrc="/unknown" />
-        <SidebarItem label="video" href="/video" iconSrc="/unknown" />
-        <SidebarItem label="writing" href="/writing" iconSrc="/unknown" />
+        <SidebarItem label="learn" href="/learn" iconSrc="/unknown.png" />
+        <SidebarItem
+          label="vocabulary"
+          href="/vocabulary"
+          iconSrc="/unknown.png"
+        />
+        <SidebarItem label="video" href="/video" iconSrc="/unknown.png" />
+        <SidebarItem label="writing" href="/writing" iconSrc="/unknown.png" />
       </div>
       <div className="p-5 flex justify-end">
         <ClerkLoading>

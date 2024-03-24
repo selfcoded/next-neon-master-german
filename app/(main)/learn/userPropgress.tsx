@@ -6,17 +6,17 @@ import React from "react";
 
 type Props = {
   activeCourse: typeof courses.$inferSelect;
-  hearts: number;
-  points: number;
-  hasActiveSubscription: boolean;
+  // hearts: number;
+  // points: number;
+  // hasActiveSubscription: boolean;
 };
 
 const UserProgress = ({
   activeCourse,
-  hearts,
-  points,
-  hasActiveSubscription,
-}: Props) => {
+}: // hearts,
+// points,
+// hasActiveSubscription,
+Props) => {
   return (
     <div className="flex items-center justify-between gap-x-2 w-full py-2">
       <Link href={"/courses"}>
@@ -30,7 +30,7 @@ const UserProgress = ({
           />
         </Button>
       </Link>
-      <Link href={"/courses"}>
+      {/* <Link href={"/courses"}>
         <Button variant={"ghost"}>
           <Image
             src={activeCourse.imageSrc}
@@ -53,7 +53,7 @@ const UserProgress = ({
           />
           {points}
         </Button>
-      </Link>
+      </Link> */}
     </div>
   );
 };

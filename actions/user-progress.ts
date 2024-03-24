@@ -1,8 +1,8 @@
 "use server";
 
-import { userProgress } from "@/db/Schema";
+import { comments, userProgress } from "@/db/Schema";
 import db from "@/db/drizzle";
-import { getCourseById, getUserProgress } from "@/db/queries";
+import { getCourseById, getLesson, getUserProgress } from "@/db/queries";
 import { auth, currentUser } from "@clerk/nextjs";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -22,7 +22,7 @@ export const upsertUserProgress = async (courseId: number) => {
 
   if (existingUserProgress) {
     await db.update(userProgress).set({
-      activeCourseID: courseId,
+      activeCourseId: courseId,
       username: user?.firstName || "user",
       userImageSrc: user?.imageUrl || "/unknown.png",
     });
@@ -32,11 +32,35 @@ export const upsertUserProgress = async (courseId: number) => {
   }
   await db.insert(userProgress).values({
     userId: userId?.toString()!,
-    activeCourseID: courseId,
+    activeCourseId: courseId,
     username: user?.firstName || "user",
     userImageSrc: user?.imageUrl || "/unknown.png",
   });
   revalidatePath("/courses");
   revalidatePath("/learn");
   redirect("/courses/lessons");
+};
+
+export const upsertComments = async (title: string, comment: string) => {
+  const { userId } = await auth();
+  const user = await currentUser();
+
+  // if(!userId ||)
+  const lesson = await getLesson(title);
+
+  if (!lesson) {
+    throw new Error("Course not found");
+  }
+  await db.insert(comments).values({
+    userId: userId?.toString()!,
+    username: user?.firstName || "user",
+    comments: comment,
+    userImageSrc: user?.imageUrl || "/unknown.png",
+    createAt: new Date(),
+    lessonId: lesson.id,
+  });
+  revalidatePath(`/courses/lessons/${title}`);
+  revalidatePath(`/learn/lessons/${title}/exercises`);
+  // revalidatePath("/learn");
+  // redirect("/courses/lessons");
 };

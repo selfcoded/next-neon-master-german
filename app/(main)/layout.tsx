@@ -10,8 +10,8 @@ const layout = ({ children }: Props) => {
     <>
       <MobileHeader />
       <Sidebar className="hidden lg:flex" />
-      <main className="lg:pl-[256px] h-full bg-red-300 pt-[50px] lg:pt-0">
-        <div className="h-full w-full p-5 bg-red-800">
+      <main className="lg:pl-[256px] h-full pt-[50px] lg:pt-0">
+        <div className="h-full w-full p-5 ">
           <Toaster />
           {children}
         </div>

@@ -9,11 +9,21 @@ import {
   SignedOut,
 } from "@clerk/nextjs";
 import { Loader } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function landingPage() {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-y-6 justify-center items-center">
+      <div className="rounded-full ">
+        <Image
+          src={"/german.jpg"}
+          alt="Deutsch Lernen"
+          width={300}
+          height={300}
+          className="object-cover rounded-s-full"
+        />
+      </div>
       <div className="text-center text-slate-600">
         <h1 className="capitalize">start your own journy to german family</h1>
       </div>
@@ -23,11 +33,9 @@ export default function landingPage() {
         </ClerkLoading>
         <ClerkLoaded>
           <SignedIn>
-            <SignInButton>
-              <Button asChild>
-                <Link href={"/learn"}> continue learning</Link>
-              </Button>
-            </SignInButton>
+            <Button asChild>
+              <Link href={"/learn"}> continue learning</Link>
+            </Button>
           </SignedIn>
           <SignedOut>
             <SignUpButton>
