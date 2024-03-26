@@ -13,7 +13,7 @@ const layout = async ({ children }: Props) => {
     redirect("/courses");
   }
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full pr-5">
       <Header title={userProgress.activeCourse.title} />
       {children}
     </div>

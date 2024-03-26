@@ -144,3 +144,30 @@ export const userProgressRelations = relations(userProgress, ({ one }) => ({
     references: [courses.id],
   }),
 }));
+
+export const vocalbularies = pgTable("vacalbularies", {
+  id: serial("vocabulary_id").primaryKey(),
+  userId: text("user_id").notNull(),
+  vocalbulary: text("vocalbularies").notNull(),
+  meaning: text("meaning").array().notNull(),
+  usage: text("usage").array().notNull(),
+  partOfSpeechId: integer("part_of_speech")
+    .references(() => partOfSpeechs.id, { onDelete: "cascade" })
+    .notNull(),
+});
+
+export const partOfSpeechs = pgTable("part_of_speechs", {
+  id: serial("id").primaryKey(),
+  partOfSpeech: text("part_of_speech").notNull(),
+});
+
+export const partOfSpeechsRelations = relations(partOfSpeechs, ({ many }) => ({
+  vocalbularies: many(vocalbularies),
+}));
+
+export const vocalbuleriesRelations = relations(vocalbularies, ({ one }) => ({
+  partOfSpeech: one(partOfSpeechs, {
+    fields: [vocalbularies.partOfSpeechId],
+    references: [partOfSpeechs.id],
+  }),
+}));

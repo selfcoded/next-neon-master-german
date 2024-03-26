@@ -10,7 +10,7 @@ const CoursesPage = async () => {
     userProgressPromise,
   ]);
   return (
-    <div className="">
+    <div className="pr-5">
       <List courses={courses} activeCourseId={userProgress?.activeCourseId} />
     </div>
   );

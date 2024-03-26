@@ -15,6 +15,8 @@ const main = async () => {
     await db.delete(schema.lessons);
     await db.delete(schema.comments);
     await db.delete(schema.exercises);
+    await db.delete(schema.vocalbularies);
+    await db.delete(schema.partOfSpeechs);
     await db.delete(schema.exerciseProgress);
     await db.delete(schema.exercisesOptions);
     await db.insert(schema.courses).values([
@@ -39,7 +41,6 @@ const main = async () => {
         imageSrc: "/unknown.png",
       },
     ]);
-
     await db.insert(schema.lessons).values([
       {
         id: 1,
@@ -140,15 +141,47 @@ const main = async () => {
         isCorrent: false,
       },
     ]);
+    await db.insert(schema.partOfSpeechs).values([
+      { id: 1, partOfSpeech: "adjektiv" },
+      { id: 2, partOfSpeech: "verb" },
+    ]);
 
-    // await db.insert(schema.exerciseProgress).values([
+    // await db.insert(schema.vocalbularies).values([
     //   {
     //     id: 1,
     //     userId: "2",
-    //     exerciseId: 1,
-    //     completed: false,
+    //     vocalbulary: "aktiv",
+    //     meaning: [
+    //       "in einer bestimmten Hinsicht tätig, engagiert",
+    //       "in Betrieb befindlich",
+    //     ],
+    //     usage: [
+    //       "Er ist sehr aktiv, was seine Hobbys betrifft",
+    //       "ich bin sehr aktiv in meiner Partei",
+    //     ],
+    //     partOfSpeechId: 1,
+    //   },
+    //   {
+    //     id: 2,
+    //     userId: "2",
+    //     vocalbulary: "arbeiten",
+    //     meaning: ["geistig oder koerperlich taetig sein", "in Betrieb sein"],
+    //     usage: [
+    //       "Er ist sehr aktiv, was seine Hobbys betrifft",
+    //       "ich bin sehr aktiv in meiner Partei",
+    //     ],
+    //     partOfSpeechId: 2,
     //   },
     // ]);
+
+    await db.insert(schema.exerciseProgress).values([
+      {
+        id: 1,
+        userId: "2",
+        exerciseId: 1,
+        completed: false,
+      },
+    ]);
   } catch (error) {
     console.log(error);
     throw new Error("failed to seed to database");

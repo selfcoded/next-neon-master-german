@@ -10,6 +10,7 @@ import {
   exercisesOptions,
   lessons,
   userProgress,
+  vocalbularies,
 } from "./Schema";
 
 export const getCourses = cache(async () => {
@@ -105,4 +106,32 @@ export const getExerciseOptions = cache(async (exercise_id: number) => {
     where: eq(exercisesOptions.exerciseId, exercise_id),
   });
   return data;
+});
+
+export const getPartOfSpeechs = cache(async () => {
+  const data = await db.query.partOfSpeechs.findMany();
+  return data;
+});
+
+export const getVocalbularies = cache(async (user?: string) => {
+  const { userId } = await auth();
+  if (!userId) {
+    return null;
+  }
+  if (user === "user") {
+    const data = await db.query.vocalbularies.findMany({
+      where: eq(vocalbularies.userId, userId),
+      with: {
+        partOfSpeech: true,
+      },
+    });
+    return data;
+  } else {
+    const data = await db.query.vocalbularies.findMany({
+      with: {
+        partOfSpeech: true,
+      },
+    });
+    return data;
+  }
 });

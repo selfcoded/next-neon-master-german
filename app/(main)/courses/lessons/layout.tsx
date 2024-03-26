@@ -7,7 +7,7 @@ const layout = async ({ children }: Props) => {
   const userProgress = await getUserProgress();
   if (!userProgress || !userProgress.activeCourse) return;
   return (
-    <div className="h-full">
+    <div className="h-full pr-5">
       <Header title={userProgress.activeCourse.title} />
       <>{children}</>
     </div>
