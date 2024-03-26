@@ -31,7 +31,6 @@ export const upsertVocalbularies = async ({
   usage,
   partOfSpeechId,
 }: Props) => {
-  console.log("enter server");
   const { userId } = await auth();
 
   if (!userId) return;

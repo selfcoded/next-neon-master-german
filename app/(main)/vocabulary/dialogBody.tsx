@@ -51,7 +51,6 @@ const DialogBody = ({ partOfSpeechs }: Props) => {
   };
 
   const onSubmit = async () => {
-    // console.log("enter");
     if (
       vocalData.vocalbulary === "" ||
       vocalData.meaning === "" ||
@@ -59,7 +58,6 @@ const DialogBody = ({ partOfSpeechs }: Props) => {
       vocalData.partOfSpeechId === 0
     )
       return;
-    console.log("enter");
     startTransition(async () => {
       await upsertVocalbularies(vocalData).catch(() =>
         toast.error("something went wrong!")

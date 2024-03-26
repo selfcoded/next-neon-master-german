@@ -16,7 +16,6 @@ const page = async ({
     queryVocalbulary = await getQueryVocalbularies(searchParams.query);
   }
   const myVocalbularies = await getVocalbularies("user");
-  console.log(myVocalbularies);
   const partOfSpeechss = await getPartOfSpeechs();
   return (
     <div className="flex gap-x-10 h-full">
