@@ -3,18 +3,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
-import { useIsClient } from "usehooks-ts";
-import { PlayIcon, PauseIcon } from "lucide-react";
+import { useIsClient, useEventListener } from "usehooks-ts";
+import { PlayIcon, PauseIcon, MaximizeIcon, MinimizeIcon } from "lucide-react";
 
 const VideoContainer = () => {
   const isClient = useIsClient();
   const [playing, setPlaying] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const dragRef = useRef<HTMLDivElement>(null);
   const parentRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [width, setWidth] = useState(800);
+  const Icon = playing ? PauseIcon : PlayIcon;
+  const FullscreenIcon = isFullscreen ? MinimizeIcon : MaximizeIcon;
   const onClick = () => {
     if (playing) {
       setPlaying(!playing);
@@ -25,10 +28,23 @@ const VideoContainer = () => {
     }
     //   if (ref.current) ref.current.requestFullscreen();
   };
+
+  const onFullscreen = () => {
+    if (isFullscreen) {
+      document.exitFullscreen();
+    } else {
+      ref.current?.requestFullscreen();
+    }
+  };
+  const handleFullscreen = () => {
+    const isCurrentFullscreen = document.fullscreenElement !== null;
+    setIsFullscreen(isCurrentFullscreen);
+  };
   const onfocus = () => {
     setPlaying(false);
     videoRef.current?.pause();
   };
+  useEventListener("fullscreenchange", handleFullscreen, ref);
   useEffect(() => {
     if (!parentRef.current || !dragRef.current) return;
     const ele = parentRef.current;
@@ -63,7 +79,6 @@ const VideoContainer = () => {
       childrenEle.removeEventListener("mousedown", onmousedown);
     };
   }, []);
-  const Icon = playing ? PauseIcon : PlayIcon;
   return (
     <div className="w-full h-full">
       <div ref={ref} className="bg-black flex h-[400px] justify-between">
@@ -78,7 +93,7 @@ const VideoContainer = () => {
             <video
               ref={videoRef}
               preload="none"
-              width="600px"
+              width={isFullscreen ? 900 : 600}
               onEnded={() => setPlaying(false)}
               // controls
             >
@@ -94,6 +109,9 @@ const VideoContainer = () => {
             <div className="absolute w-full h-10 bg-white/50 bottom-0 opacity-0 hover:opacity-100 transition-all">
               <Button onClick={onClick} variant={"ghost"}>
                 <Icon />
+              </Button>
+              <Button onClick={onFullscreen} variant={"ghost"}>
+                <FullscreenIcon />
               </Button>
             </div>
             <div
