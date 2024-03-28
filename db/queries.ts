@@ -10,6 +10,7 @@ import {
   exercisesOptions,
   lessons,
   userProgress,
+  videoScript,
   vocalbularies,
 } from "./Schema";
 
@@ -134,4 +135,14 @@ export const getVocalbularies = cache(async (user?: string) => {
     });
     return data;
   }
+});
+export const getVideoScripts = cache(async (id: number) => {
+  const { userId } = await auth();
+  if (!userId) {
+    return null;
+  }
+  const data = await db.query.videoScript.findFirst({
+    where: eq(videoScript.id, id),
+  });
+  return data;
 });

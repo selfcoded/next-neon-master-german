@@ -171,3 +171,8 @@ export const vocalbuleriesRelations = relations(vocalbularies, ({ one }) => ({
     references: [partOfSpeechs.id],
   }),
 }));
+
+export const videoScript = pgTable("video_script", {
+  id: serial("video_id").primaryKey(),
+  text: text("text").array().notNull(),
+});

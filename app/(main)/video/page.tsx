@@ -1,10 +1,12 @@
 import React from "react";
 import VideoContainer from "./videoContainer";
+import { getVideoScripts } from "@/db/queries";
 
-const page = () => {
+const page = async () => {
+  const getVideoScript = await getVideoScripts(1);
   return (
     <div>
-      <VideoContainer />
+      <VideoContainer getVideoScript={getVideoScript} />
     </div>
   );
 };

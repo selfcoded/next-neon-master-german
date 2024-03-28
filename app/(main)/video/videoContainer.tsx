@@ -5,8 +5,14 @@ import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import { useIsClient, useEventListener } from "usehooks-ts";
 import { PlayIcon, PauseIcon, MaximizeIcon, MinimizeIcon } from "lucide-react";
+import RightInpupt from "./rightInput";
+import { videoScript } from "@/db/Schema";
 
-const VideoContainer = () => {
+type Props = {
+  getVideoScript: typeof videoScript.$inferSelect | null | undefined;
+};
+
+const VideoContainer = ({ getVideoScript }: Props) => {
   const isClient = useIsClient();
   const [playing, setPlaying] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -14,8 +20,7 @@ const VideoContainer = () => {
   const dragRef = useRef<HTMLDivElement>(null);
   const parentRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [width, setWidth] = useState(800);
+  const inputRef = useRef<HTMLInputElement[]>([]);
   const Icon = playing ? PauseIcon : PlayIcon;
   const FullscreenIcon = isFullscreen ? MinimizeIcon : MaximizeIcon;
   const onClick = () => {
@@ -26,7 +31,6 @@ const VideoContainer = () => {
       setPlaying(!playing);
       videoRef.current?.play();
     }
-    //   if (ref.current) ref.current.requestFullscreen();
   };
 
   const onFullscreen = () => {
@@ -40,17 +44,20 @@ const VideoContainer = () => {
     const isCurrentFullscreen = document.fullscreenElement !== null;
     setIsFullscreen(isCurrentFullscreen);
   };
-  const onfocus = () => {
+  const handleFocus = () => {
     setPlaying(false);
     videoRef.current?.pause();
   };
   useEventListener("fullscreenchange", handleFullscreen, ref);
   useEffect(() => {
-    if (!parentRef.current || !dragRef.current) return;
+    if (!parentRef.current || !dragRef.current || !ref.current) return;
     const ele = parentRef.current;
+    const containerWidth = parseInt(
+      window.getComputedStyle(ref.current).width,
+      10
+    );
     const childrenEle = dragRef.current;
     const styles = window.getComputedStyle(ele);
-    console.log(styles.width);
     let parentWidth = parseInt(styles.width, 10);
 
     let xCord = 0;
@@ -58,7 +65,11 @@ const VideoContainer = () => {
       if (parentRef.current) {
         const dx = event.clientX - xCord;
         xCord = event.clientX;
-        parentWidth = parentWidth + dx;
+        parentWidth =
+          parentWidth > containerWidth - 200
+            ? parentWidth - 2
+            : parentWidth + dx;
+        if (parentWidth > containerWidth - 200) return;
         parentRef.current.style.width = `${parentWidth}px`;
       }
     };
@@ -80,22 +91,21 @@ const VideoContainer = () => {
     };
   }, []);
   return (
-    <div className="w-full h-full">
-      <div ref={ref} className="bg-black flex h-[400px] justify-between">
-        <div
-          className="relative flex justify-between items-center "
-          //   style={{ width: `${width}px` }}
-        >
+    <div className="w-[90%] h-full">
+      <div
+        ref={ref}
+        className="bg-black flex h-[400px] justify-between w-full overflow-auto"
+      >
+        <div className="relative flex justify-between items-center ">
           <div
             ref={parentRef}
             className="relative w-full h-full flex justify-center items-center"
           >
             <video
               ref={videoRef}
-              preload="none"
+              preload="auto"
               width={isFullscreen ? 900 : 600}
               onEnded={() => setPlaying(false)}
-              // controls
             >
               <source src="/video.mp4" type="video/mp4" />
               <track
@@ -120,10 +130,15 @@ const VideoContainer = () => {
             ></div>
           </div>
         </div>
-        <div className="bg-slate-300 grow flex flex-col gap-y-3 px-3 py-2">
+        <RightInpupt
+          handleFocus={handleFocus}
+          ref={inputRef}
+          getVideoScript={getVideoScript}
+        />
+        {/* <div className="bg-slate-300 grow flex flex-col gap-y-3 px-3 py-2 min-w-[200px]">
           <div>what did you hear</div>
           <Input ref={inputRef} onFocus={onfocus} />
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -25,7 +25,7 @@ const Sidebar = ({ className }: Props) => {
           iconSrc="/unknown.png"
         />
         <SidebarItem label="video" href="/video" iconSrc="/unknown.png" />
-        <SidebarItem label="writing" href="/writing" iconSrc="/unknown.png" />
+        {/* <SidebarItem label="writing" href="/writing" iconSrc="/unknown.png" /> */}
       </div>
       <div className="p-5 flex justify-end">
         <ClerkLoading>

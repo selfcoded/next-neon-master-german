@@ -15,6 +15,7 @@ const main = async () => {
     await db.delete(schema.lessons);
     await db.delete(schema.comments);
     await db.delete(schema.exercises);
+    await db.delete(schema.videoScript);
     await db.delete(schema.vocalbularies);
     await db.delete(schema.partOfSpeechs);
     await db.delete(schema.exerciseProgress);
@@ -173,6 +174,12 @@ const main = async () => {
     //     partOfSpeechId: 2,
     //   },
     // ]);
+    await db.insert(schema.videoScript).values([
+      {
+        id: 1,
+        text: ["first sentence", "second sentence"],
+      },
+    ]);
 
     await db.insert(schema.exerciseProgress).values([
       {
