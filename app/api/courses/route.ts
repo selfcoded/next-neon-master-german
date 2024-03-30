@@ -9,7 +9,9 @@ export const GET = async () => {
     return new NextResponse("unauthorized", { status: 401 });
   }
   const data = await db.query.courses.findMany();
-  return NextResponse.json(data);
+  return NextResponse.json(data, {
+    headers: { "Content-Range": `courses 0-${data.length}/${data.length}` },
+  });
 };
 
 export const POST = async (req: Request) => {
