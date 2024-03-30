@@ -74,7 +74,7 @@ const main = async () => {
     ]);
     await db.insert(schema.exercises).values([
       {
-        exerciseId: 1,
+        id: 1,
         lessonId: 1,
         type: "SINGLE_CHOICE",
         question: "was ist der Nominativ von MANN",
@@ -83,7 +83,7 @@ const main = async () => {
     ]);
     await db.insert(schema.exercises).values([
       {
-        exerciseId: 2,
+        id: 2,
         lessonId: 1,
         type: "SINGLE_CHOICE",
         question: "was ist der Nominativ von Frau",

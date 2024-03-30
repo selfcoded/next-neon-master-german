@@ -46,7 +46,7 @@ export const exerciseEnum = pgEnum("type", [
   "TRANSFORMATION",
 ]);
 export const exercises = pgTable("exercises", {
-  exerciseId: serial("exercise_id").primaryKey(),
+  id: serial("exercise_id").primaryKey(),
   lessonId: integer("lession_id").references(() => lessons.id, {
     onDelete: "cascade",
   }),
@@ -66,7 +66,7 @@ export const exercisesRelations = relations(exercises, ({ one, many }) => ({
 
 export const exercisesOptions = pgTable("exercises_options", {
   exerciseOptionId: serial("exercise_option_id").primaryKey(),
-  exerciseId: integer("exercise_id").references(() => exercises.exerciseId, {
+  exerciseId: integer("exercise_id").references(() => exercises.id, {
     onDelete: "cascade",
   }),
   content: text("content").notNull(),
@@ -78,7 +78,7 @@ export const exercisesOptionsRelations = relations(
   ({ one }) => ({
     exercise: one(exercises, {
       fields: [exercisesOptions.exerciseId],
-      references: [exercises.exerciseId],
+      references: [exercises.id],
     }),
   })
 );
@@ -86,7 +86,7 @@ export const exercisesOptionsRelations = relations(
 export const exerciseProgress = pgTable("exercise_progress", {
   id: serial("exercise_progress_id").primaryKey(),
   userId: text("user_id").notNull(),
-  exerciseId: integer("exercise_id").references(() => exercises.exerciseId, {
+  exerciseId: integer("exercise_id").references(() => exercises.id, {
     onDelete: "cascade",
   }),
   completed: boolean("completed").notNull(),
@@ -97,7 +97,7 @@ export const exerciseProgressRelations = relations(
   ({ one }) => ({
     exercise: one(exercises, {
       fields: [exerciseProgress.exerciseId],
-      references: [exercises.exerciseId],
+      references: [exercises.id],
     }),
   })
 );
